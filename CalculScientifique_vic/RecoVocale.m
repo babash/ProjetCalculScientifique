@@ -1,7 +1,7 @@
 % Reconnaissance vocale par DTW
 
 vocabulaire={'arretetoi', 'atterrissage', 'avance', 'decollage', 'droite', 'etatdurgence', 'faisunflip', 'gauche', 'plusbas', 'plushaut', 'recule', 'tournedroite', 'tournegauche'};
-chemin='corpus/dronevolant_nonbruite/' ;
+chemin='../corpus/dronevolant_nonbruite/' ;
 nbmots=length(vocabulaire) ;
 
 % Lecture des fichiers audio
@@ -9,7 +9,7 @@ nbmots=length(vocabulaire) ;
 locuteur = 'M01' ;
 for mot=1:nbmots
     nomfichier = [ chemin, locuteur, '_', vocabulaire{mot}, '.wav' ] ;
-    REF{mot} = parametrisation(nomfichier); 
+    REF{mot} = parametrisation(nomfichier);
 endfor
 
 % hyp
@@ -33,5 +33,5 @@ for nolocuteur = 1:nbhypotheses
 endfor
 %vocabulaire
 disp(MatriceConfusion);
-tauxreco = 1-d; % calculez ici le taux de reconnaissance à partir de la matrice de confusion 
+tauxreco = 1-d; % calculez ici le taux de reconnaissance à partir de la matrice de confusion
 disp(['Taux de reconnaissance : ',num2str(tauxreco*100), '%']);
