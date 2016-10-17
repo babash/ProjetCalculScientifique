@@ -19,18 +19,26 @@ function [D,g] = CalculDistanceDTW(sequence1, sequence2, distance, contrainte = 
     %Ainsi, si l'on souhaite connaitre les coordonnées de la case (x, y) de notre tableau g :
     %Il faut regarder les cases de coordonnées (x, y,  1) pour l'ordonnée et (x, y, 2) pour l'abscisse
     case_prec = zeros(size_1, size_2, 2);
+    
+    %On initialise les cases des cotés gauche et haut de notre matrice à +inf
+    %Ceci permet de s'assurer que qu'aucune case ne prendra pour case précédentes ces cases de calculs.
+    %Et aussi de ne pas sortir des dimensions du tableau.
     for i = 2 : size_1
         g(i, 1) = +inf;
     endfor
     for j = 2 : size_2
         g(1, j) = +inf;
     endfor
+    
+    %Coefficiant initialisé à 1. A de changer si besoin.
     w1 = 1;
     w2 = 1;
     w3 = 1;
     
+    %Pour chaque case nous allons calculer sa distance, ainsi que sa case précédente.
     for i = 2 : size_1
         for j = 2 : size_2
+            %On ne traite pas les cases trop éloignées de la diagonale. Contrainte fixée par l'utilisateur
             if(abs(i - j) <= contrainte)
               d = feval(distance, sequence1, sequence2, i-1, j-1);
               
