@@ -72,10 +72,16 @@ function [D,g] = CalculDistanceDTW(sequence1, sequence2, distance, contrainte = 
             endif
         endfor
     endfor
-    D = g(size_1, size_2)/(size_1+size_2);
+    %La distance D est égale à la distance calculée de la dernière case divisée par la somme de la taille
+    %des deux sequences
+    D = g(size_1, size_2)/(size_1+size_2-2);
+    
+    %Pour afficher la matrice en cases couleurs, décommentez la ligne suivante :
     %imagesc(g);
+    
+    %Pour le débugage : décommentez pour afficher :
     %D
-    g
-    case_prec
+    %g
+    %case_prec
             
 endfunction
