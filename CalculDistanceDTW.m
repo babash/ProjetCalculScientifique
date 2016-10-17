@@ -42,12 +42,19 @@ function [D,g] = CalculDistanceDTW(sequence1, sequence2, distance, contrainte = 
             if(abs(i - j) <= contrainte)
               d = feval(distance, sequence1, sequence2, i-1, j-1);
               
+              %On stocke la distance de la case (i, j) pour chacun de ses voisins [haut, haut gauche, gauche] dans vecteur
+              %Chacun d'entre eux pouvant etre la case precedente à (i, j)
               haut = w1 * d + g(i-1, j);
               haut_gauche = w2 * d + g(i-1, j-1);
               gauche = w3 * d + g(i, j-1);
               vecteur = [haut, haut_gauche, gauche];
               
+              %La distance à (i, j) devant etre la plus petite possible, on prends le min de vecteur.
               g(i, j) = min(vecteur);
+              
+              %On cherche ici quelle était la case précédente à (i, j) en testant chaque valeur
+              %A distance égale, on préfère la diagonale, donc elle est en premier dans le if
+              %A distance égale en la case en haut, et celle de gauche, on choisit arbitrairement la case du haut.
               if(g(i, j) == haut_gauche)
                 case_prec(i, j, 1) = i-1;
                 case_prec(i, j, 2) = j-1;
@@ -59,6 +66,8 @@ function [D,g] = CalculDistanceDTW(sequence1, sequence2, distance, contrainte = 
                 case_prec(i, j, 2) = j-1;
               endif
             else
+              %Si la case est trop éloigné de la diagonale, on lui attribut comme valeur +inf
+              %De cette manière elle ne pourra pas ^etre utilisée comme case précédente.
               g(i, j) = +inf;
             endif
         endfor
